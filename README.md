@@ -22,4 +22,10 @@
 
 ## compressed file structure:
 
-[file extension][huffman tree source][compressed content][EOF]
+### name
+
+- [original_name], no extension
+
+### content
+
+[last zeros][file extension][huffman tree source][compressed content][EOF]
