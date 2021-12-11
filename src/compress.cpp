@@ -1,20 +1,61 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-using namespace std;
+#include <vector>
 using namespace std;
 
-int compress(char* fileName) {
-  string line;
+class CharacterFrequency {
+  public:
+    int frequency = 0;
+    char character;
+};
+
+vector<CharacterFrequency> countCharacterFrequencies(char* fileName) {
+  vector<CharacterFrequency> characterFrequencies;
+  CharacterFrequency characterFrequency;
+  char byte = 0;
   ifstream file(fileName, ios::binary);
   if (file.is_open()) {
-    while (getline(file,line)) {
-      cout << line << '\n';
+    while (file.get(byte)) {
+      if (characterFrequencies.size() != 0) {
+        int exists = 0;
+        for (int i = 0; i < characterFrequencies.size(); i++) {
+          if (characterFrequencies[i].character == byte) {
+            characterFrequencies[i].frequency += 1;
+            exists = 1;
+            break;
+          }
+        }
+        if (exists == 0) {
+          characterFrequency.character = byte;
+          characterFrequency.frequency = 1;
+          characterFrequencies.push_back(characterFrequency);
+        }
+      }
+      else {
+        characterFrequency.character = byte;
+        characterFrequency.frequency = 1;
+        characterFrequencies.push_back(characterFrequency);
+      }
     }
     file.close();
   }
   else {
     cout << "Unable to open file, exiting" << endl;
+    exit(0);
   }
+  return characterFrequencies;
+}
+
+int compress(char* fileName) {
+  vector<CharacterFrequency> characterFrequencies;
+  characterFrequencies = countCharacterFrequencies(fileName);
+  // implement sorting by frequency (desc)
+  cout << "Ordered characters" << endl;
+  for (int i = 0; i < characterFrequencies.size(); i++) {
+    cout << characterFrequencies[i].character << " " << characterFrequencies[i].frequency << endl;
+  }
+  characterFrequencies.clear();
+  // clear vectors
   return 0;
 }
