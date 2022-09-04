@@ -55,12 +55,14 @@ vector<CharacterFrequency> countCharacterFrequencies(char* fileName) {
 int compress(char* fileName) {
   vector<CharacterFrequency> characterFrequencies;
   characterFrequencies = countCharacterFrequencies(fileName);
-  // implement sorting by frequency (desc)
   sort(characterFrequencies.begin(), characterFrequencies.end(), greater<CharacterFrequency>());
+  // when characters are sorted, those will be inputted to compressed file for decompressing purposes
+  // with that information the huffman tree can be created
   cout << "Ordered characters" << endl;
   for (int i = 0; i < characterFrequencies.size(); i++) {
     cout << characterFrequencies[i].character << " " << characterFrequencies[i].frequency << endl;
   }
+  // implement huffman tree structure
   characterFrequencies.clear();
   // clear vectors
   return 0;
